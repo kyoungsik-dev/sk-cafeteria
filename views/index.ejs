@@ -9,7 +9,7 @@
   <ul class="nav nav-tabs mt-4">
     <% for (let i=0; i<5; i++){ %>
     <li class="nav-item">
-      <a class="nav-link <%= i === weekdayToday ? 'active' : '' %>"><%= datearr[i] %> (<%= weekdayString[i]%>)</a>
+      <a class="nav-link <%= i === date.weekdayToday ? 'active' : '' %>"><%= date.dateString[i] %> (<%= date.weekdayString[i]%>)</a>
     </li>
     <% } %>
   </ul>
