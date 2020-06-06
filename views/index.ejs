@@ -1,17 +1,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SK U-타워 구내식당</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="./static/style.css">
 </head>
-<body class="p-3">
-  <h1>SK U-타워 구내식당</h1>
-  <ul class="nav nav-tabs mt-4">
-    <% for (let i=0; i<5; i++){ %>
-    <li class="nav-item">
-      <a class="nav-link <%= i === date.weekdayToday ? 'active' : '' %>"><%= date.dateString[i] %> (<%= date.weekdayString[i]%>)</a>
-    </li>
-    <% } %>
-  </ul>
+<body>
+  <!-- 상단부 -->
+  <div class="upper">
+    <div class="px-5 text-center py-3">
+      <h2 class="m-0">SK U-타워 구내식당</h1>
+    </div>
+    <ul class="nav nav-tabs px-5 justify-content-center">
+      <% for (let i=0; i<5; i++){ %>
+        <li class="nav-item">
+          <a class="nav-link <%= i === date.weekdayToday ? 'active' : '' %>"><%= date.dateString[i] %> (<%= date.weekdayString[i]%>)</a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+
+  <!-- 하단부 -->
+  <% if (date.weekdayToday === -1 || date.weekdayToday === 5) { %>
+    <div class="text-center p-5">
+      <span style="font-size: 100px;">
+        😭
+      </span>
+      <h2>오늘은 주말이에요</h2>
+    </div>
+  <% } else { %>
+  <div class="lower px-5 pt-3 row">
+    <div class="left col-2">
+      <button type="button" class="btn btn-outline-secondary select-type mb-2" data-type="breakfast">아침</button>
+      <button type="button" class="btn btn-outline-secondary select-type mb-2" data-type="lunch">점심</button>
+      <button type="button" class="btn btn-outline-secondary select-type mb-2" data-type="dinner">저녁</button>
+    </div>
+    <div class="right col-10">
+    </div>
+  </div>
+  <% } %>
+  <script src="./static/script.js"></script>
 </body>
 </html>

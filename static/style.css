@@ -1,0 +1,12 @@
+.upper {
+  background-color: #eee;
+}
+.lower {
+}
+.nav-item .nav-link {
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}

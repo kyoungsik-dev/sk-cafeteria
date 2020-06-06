@@ -7,7 +7,7 @@ const https = require('https');
 const log = console.log;
 
 app.set('view engine', 'ejs');
-
+app.use('/static', express.static('static'));
 app.get('/api/:date', (req, res) => {
 
   const menus = {};
@@ -23,7 +23,7 @@ app.get('/api/:date', (req, res) => {
     }).get().join(' | ');
     return {
       type: $('h6 strong').text(),
-      calories: $('h6 span').text(),
+      calories: $('h6 > span').text(),
       name: $('ul .mainmenu').text(), 
       desc
     }
@@ -69,6 +69,7 @@ app.get('/', (req, res) => {
   const today = new Date();
   date.weekdayString = ['월', '화', '수', '목', '금'];
   date.weekdayToday = today.getDay() - 1;
+  // date.weekdayToday = 2;
 
   const formatDate = (mydate) => {
     return mydate.getMonth()+1 + '월 ' + mydate.getDate() + '일';
