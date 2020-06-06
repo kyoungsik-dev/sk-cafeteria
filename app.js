@@ -2,10 +2,64 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const cheerio = require('cheerio');
+const https = require('https');
 
 const log = console.log;
 
 app.set('view engine', 'ejs');
+
+app.get('/api/:date', (req, res) => {
+
+  const menus = {};
+  const  httpsAgent = new https.Agent({
+    rejectUnauthorized: false
+  });
+
+  const parseMenu = (obj) => {
+    const $ = cheerio.load(obj);
+    const desc = $('ul li').map(function(i, el) {
+      if (i == 0) return;
+      return $(this).text();
+    }).get().join(' | ');
+    return {
+      type: $('h6 strong').text(),
+      calories: $('h6 span').text(),
+      name: $('ul .mainmenu').text(), 
+      desc
+    }
+  }
+
+  const fetchMenu = (type, i) => {
+    return new Promise(resolve => {
+      const url = `https://www.skhystec.com/service-cafe-bd.asp?m_gubun1=${i+1}&shr_yymmdd=${req.params.date}`;
+      axios.get(url, {httpsAgent})
+        .then(html => {
+          const $ = cheerio.load(html.data);
+          const $bodyList = $('ul.menu-info').children().prev();
+          menus[type] = [];
+          menus[type][0] = parseMenu($bodyList.html());
+          menus[type][1] = parseMenu($bodyList.next().html());
+          menus[type][2] = parseMenu($bodyList.next().next().html());
+          log("Feched : " + i);
+          resolve();
+        })
+        .catch(error => {
+          log(error);
+          resolve();
+        });
+    });
+  }
+
+  async function fetchAllMenu() {
+    const promises = ['breakfast', 'lunch', 'dinner'].map((type, i) => fetchMenu(type, i));
+    await Promise.all(promises);
+    log("Fetch Complete!");
+    res.json(menus);
+  }
+  
+  fetchAllMenu();
+});
+
 
 app.get('/', (req, res) => {
 
@@ -14,7 +68,7 @@ app.get('/', (req, res) => {
   const numbers = [0, 1, 2, 3, 4]; // Monday to Friday
   const today = new Date();
   date.weekdayString = ['월', '화', '수', '목', '금'];
-  date.weekdayToday = 2;
+  date.weekdayToday = today.getDay() - 1;
 
   const formatDate = (mydate) => {
     return mydate.getMonth()+1 + '월 ' + mydate.getDate() + '일';
@@ -24,15 +78,6 @@ app.get('/', (req, res) => {
     return new Date(today.getTime() - ((today.getDay() - index - 1) * 86400 * 1000));
   });
   date.dateString = dateObjs.map(o => formatDate(o));
-
-  // -------- 식단 크롤링 --------
-
-  const urls = dateObjs.map(o => {
-    const thisDate = `${o.getFullYear()}-${o.getMonth()+1}-${o.getDate}`;
-    return 'https://www.skhystec.com/service-cafe-bd.asp?m_gubun1=2&shr_yymmdd=' + thisDate;
-  })
-  
-  // urls로 GET 요청 및 HTML 파싱
 
 
   res.render('index', {
