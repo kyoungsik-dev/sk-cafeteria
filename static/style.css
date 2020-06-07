@@ -4,9 +4,12 @@
 .lower {
 }
 .nav-item .nav-link {
+  padding: 0.3rem 0.7rem;
 }
-.left {
-  display: flex;
-  flex-direction: column;
-  width: 100px;
+.btn {
+  box-shadow: none!important;
+}
+.nav-item > a {
+  color: inherit;
+  text-decoration: none;
 }

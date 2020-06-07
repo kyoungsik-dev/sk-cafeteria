@@ -5,7 +5,25 @@ const cheerio = require('cheerio');
 const https = require('https');
 
 const log = console.log;
+const getData = (day) => {
+  const date = {};
+  const numbers = [0, 1, 2, 3, 4]; // Monday to Friday
+  const today = new Date();
+  date.weekdayString = ['월', '화', '수', '목', '금'];
+  date.weekdayToday = day;
 
+  const formatDate = (mydate) => {
+    return mydate.getMonth()+1 + '월 ' + mydate.getDate() + '일';
+  }
+
+  const dateObjs = numbers.map(index => {
+    return new Date(today.getTime() - ((today.getDay() - index - 1) * 86400 * 1000));
+  });
+  date.dateString = dateObjs.map(o => formatDate(o));
+
+
+  return { date, isError: false };
+}
 app.set('view engine', 'ejs');
 app.use('/static', express.static('static'));
 app.get('/api/:date', (req, res) => {
@@ -20,7 +38,7 @@ app.get('/api/:date', (req, res) => {
     const desc = $('ul li').map(function(i, el) {
       if (i == 0) return;
       return $(this).text();
-    }).get().join(' | ');
+    }).get();
     return {
       type: $('h6 strong').text(),
       calories: $('h6 > span').text(),
@@ -60,31 +78,20 @@ app.get('/api/:date', (req, res) => {
   fetchAllMenu();
 });
 
+app.get('/:day', (req, res) => {
+  const data = getData(parseInt(req.params.day));
+  res.render('index', data);
+});
 
 app.get('/', (req, res) => {
-
-  // -------- 날짜 표시 --------
-  const date = {};
-  const numbers = [0, 1, 2, 3, 4]; // Monday to Friday
-  const today = new Date();
-  date.weekdayString = ['월', '화', '수', '목', '금'];
-  date.weekdayToday = today.getDay() - 1;
-  // date.weekdayToday = 2;
-
-  const formatDate = (mydate) => {
-    return mydate.getMonth()+1 + '월 ' + mydate.getDate() + '일';
-  }
-
-  const dateObjs = numbers.map(index => {
-    return new Date(today.getTime() - ((today.getDay() - index - 1) * 86400 * 1000));
-  });
-  date.dateString = dateObjs.map(o => formatDate(o));
-
-
-  res.render('index', {
-    date
-  });
+  const data = getData(new Date().getDay() - 1);
+  res.render('index', data);
 });
+
+app.get('/*', (req, res) => {
+  const data = getData(100);
+  res.render('index', data);
+})
 
 const port = 3000;
 app.listen(port, () => {
