@@ -4,7 +4,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const https = require('https');
 
-const log = console.log;
 const getData = (day) => {
   const date = {};
   const numbers = [0, 1, 2, 3, 4]; // Monday to Friday
@@ -58,11 +57,10 @@ app.get('/api/:date', (req, res) => {
           menus[type][0] = parseMenu($bodyList.html());
           menus[type][1] = parseMenu($bodyList.next().html());
           menus[type][2] = parseMenu($bodyList.next().next().html());
-          log("Feched : " + i);
           resolve();
         })
         .catch(error => {
-          log(error);
+          console.log(error);
           resolve();
         });
     });
@@ -71,7 +69,6 @@ app.get('/api/:date', (req, res) => {
   async function fetchAllMenu() {
     const promises = ['breakfast', 'lunch', 'dinner'].map((type, i) => fetchMenu(type, i));
     await Promise.all(promises);
-    log("Fetch Complete!");
     res.json(menus);
   }
   
