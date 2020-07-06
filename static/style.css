@@ -3,9 +3,9 @@
 }
 .lower {
 }
-.nav-item .nav-link {
+/* .nav-item .nav-link {
   padding: 0.3rem 0.7rem;
-}
+} */
 .nav-item .nav-link:hover:not(.active) {
   background-color: #f9f9f9;
 }

@@ -27,7 +27,7 @@ app.set('view engine', 'ejs');
 app.use('/static', express.static('static'));
 app.get('/api/:date', (req, res) => {
 
-  const menus = {};
+  const menus = {time: {}};
   const  httpsAgent = new https.Agent({
     rejectUnauthorized: false
   });

@@ -3,7 +3,8 @@
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SK U-타워 구내식당</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -15,7 +16,10 @@
     <ul class="nav nav-tabs px-3 justify-content-center">
       <% for (let i=0; i<5; i++){ %>
         <li class="nav-item">
-          <a href="/<%=i%>" class="nav-link small <%= i === date.weekdayToday ? 'active' : '' %>"><%= date.dateString[i] %> (<%= date.weekdayString[i]%>)</a>
+          <a href="/<%=i%>" class="nav-link <%= i === date.weekdayToday ? 'active' : '' %>">
+            <%= date.weekdayString[i]%>
+            <%= i=== date.weekdayToday ? '(' + date.dateString[i] + ')' : '' %>
+          </a>
         </li>
       <% } %>
     </ul>

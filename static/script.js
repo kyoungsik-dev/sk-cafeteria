@@ -30,7 +30,8 @@ window.onload = function () {
     .then(data => {
       let wholeHTML = [];
       Object.keys(data).map(type => {
-        const menusHTML = data[type].map(o => makeHTML(o)).join('');
+        // const menusHTML = data[type].map(o => makeHTML(o)).join('');
+        const menusHTML = makeHTML(data[type][0]) + makeHTML(data[type][1]);
         wholeHTML.push(`<div class="menu-display card-group ${type === currentType ? '' : 'd-none'}" data-type=${type}>${menusHTML}</div>`);
       });
       document.querySelector('.menu-body').innerHTML = wholeHTML.join('');
