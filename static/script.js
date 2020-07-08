@@ -2,8 +2,8 @@ window.onload = function () {
   let currentType = window.currentType;
 
   // 식단표 채워넣기
-  const makeHTML = (data) => {
-    if (!data.name) return;
+  const makeHTML = (data, index) => {
+    if (!data.name || index > 1) return;
     const descHTML = data.desc.map(item => `• ${item}&nbsp;`).join('');
     return `<div class="card">
       <div class="card-header px-3">
@@ -23,18 +23,23 @@ window.onload = function () {
   const month = (today.getMonth()+1 < 10 ? '0' : '') + String(today.getMonth()+1);
   const date = (today.getDate() < 10 ? '0' : '') + String(today.getDate());
   const url = `/api/${year}-${month}-${date}`;
+  let business_hours = {};
 
   if (0 <= window.weekdayToday && window.weekdayToday <= 4) {
     fetch(url)
     .then(response => response.json())
     .then(data => {
+      const {menus, time} = data;
       let wholeHTML = [];
-      Object.keys(data).map(type => {
-        // const menusHTML = data[type].map(o => makeHTML(o)).join('');
-        const menusHTML = makeHTML(data[type][0]) + makeHTML(data[type][1]);
+      Object.keys(menus).map(type => {
+        const menusHTML = menus[type].map((o,i) => makeHTML(o,i)).join('');
         wholeHTML.push(`<div class="menu-display card-group ${type === currentType ? '' : 'd-none'}" data-type=${type}>${menusHTML}</div>`);
       });
       document.querySelector('.menu-body').innerHTML = wholeHTML.join('');
+
+      // 운영시간
+      business_hours = time;
+      document.getElementById('business_hours').innerText = business_hours[currentType];
     });
   }
 
@@ -48,6 +53,9 @@ window.onload = function () {
 
       document.querySelector(`.menu-display[data-type=${currentType}]`).classList.add('d-none');
       document.querySelector(`.menu-display[data-type=${selectedType}]`).classList.remove('d-none');
+
+      document.getElementById('business_hours').innerText = business_hours[selectedType];
+
       currentType = selectedType;
     });
   });

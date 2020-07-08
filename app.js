@@ -27,7 +27,12 @@ app.set('view engine', 'ejs');
 app.use('/static', express.static('static'));
 app.get('/api/:date', (req, res) => {
 
-  const menus = {time: {}};
+  const menus = {};
+  const time = {
+    breakfast: '07:30 ~ 08:30',
+    lunch: '11:30 ~ 13:30',
+    dinner: '17:30 ~ 19:00'
+  };
   const  httpsAgent = new https.Agent({
     rejectUnauthorized: false
   });
@@ -69,7 +74,7 @@ app.get('/api/:date', (req, res) => {
   async function fetchAllMenu() {
     const promises = ['breakfast', 'lunch', 'dinner'].map((type, i) => fetchMenu(type, i));
     await Promise.all(promises);
-    res.json(menus);
+    res.json({menus, time});
   }
   
   fetchAllMenu();

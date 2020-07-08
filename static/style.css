@@ -1,3 +1,19 @@
+#appinfo {
+  position: absolute;
+  right: 12px;
+  line-height: 1.2;
+}
+#ainize {
+  width: 136px;
+  height: 20px;
+}
+#selector_bar {
+  justify-content: space-between;
+}
+#business_hours {
+  margin: 6px 0;
+}
+
 .upper {
   background-color: #eee;
 }

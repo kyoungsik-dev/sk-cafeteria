@@ -10,8 +10,11 @@
 <body>
   <!-- 상단부 -->
   <div class="upper">
-    <div class="px-3 text-center py-2">
+    <div class="px-3 text-center py-2 d-flex justify-content-center">
       <h5 class="m-0">SK U-타워 구내식당</h5>
+      <button type="button" id="appinfo" class="btn btn-lg p-0" data-toggle="modal" data-target="#exampleModal">
+        ℹ️
+      </button>
     </div>
     <ul class="nav nav-tabs px-3 justify-content-center">
       <% for (let i=0; i<5; i++){ %>
@@ -34,15 +37,44 @@
     </div>
   <% } else if (0 <= date.weekdayToday && date.weekdayToday <= 4) { %>
   <div class="lower px-3 pt-3">
-    <div class="btn-group">
-      <button type="button" class="btn btn-sm btn-outline-secondary select-type mb-2" data-type="breakfast">아침</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary select-type mb-2 active" data-type="lunch">점심</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary select-type mb-2" data-type="dinner">저녁</button>
+    <div id="selector_bar" class="d-flex">
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-outline-secondary select-type mb-2" data-type="breakfast">아침</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary select-type mb-2 active" data-type="lunch">점심</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary select-type mb-2" data-type="dinner">저녁</button>
+      </div>
+      <div>
+        <span id="business_hours" class="badge rounded-pill bg-secondary"></span>
+      </div>
     </div>
     <div class="menu-body">
       <div class="text-center py-5 my-5">
         <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
           <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- INFO-MODAL -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">앱 정보</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b>GitHub</b><br/>
+          <a style="color: inherit;" target="_blank" href="https://github.com/kyoungsik-dev/sk-cafeteria">https://github.com/kyoungsik-dev/sk-cafeteria</a><br/>
+          <br/>
+          <b>E-Mail</b><br/>
+          <a style="color: inherit;" target="_blank" href="mailto:kyoungsik.dev@gmail.com">kyoungsik.dev@gmail.com</a><br/>
+          개선사항 또는 버그 문의는 언제든지 환영합니다!<br/>
+          <br/>
+          <a target="_blank" href="https://ainize.ai/"><img id="ainize" src="/static/ainize.png"></a>
         </div>
       </div>
     </div>
@@ -55,10 +87,13 @@
       <h2>에러가 발생했어요</h2>
     </div>
   <% } %>
+  
   <script>
     window.weekdayToday = <%=date.weekdayToday%>;
     window.currentType = 'lunch';
   </script>
   <script src="/static/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
 </body>
 </html>
