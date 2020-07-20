@@ -4,8 +4,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SK U-타워 구내식당</title>
   <!-- CSS only -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/style.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173008391-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-173008391-1');
+  </script>
 </head>
 <body>
   <!-- 상단부 -->
@@ -28,7 +37,14 @@
     </ul>
   </div>
   <!-- 하단부 -->
-  <% if (date.weekdayToday === -1 || date.weekdayToday === 5) { %>
+  <% if (true) { %>
+    <div class="text-center px-5">
+      <span style="font-size: 100px;">
+        😭
+      </span>
+      <h5>SK하이닉스 측 홈페이지 개편으로 인해<br>현재 식단 정보 수집이 불가능합니다.<br><br>빠른 시일 내에 수정하여 재배포하겠습니다.</h5>
+    </div>
+  <% } else if (date.weekdayToday === -1 || date.weekdayToday === 5) { %>
     <div class="text-center p-5">
       <span style="font-size: 100px;">
         😭
