@@ -51,7 +51,7 @@ app.get('/api2/:date', (req, res) => {
       const url = `https://mc.skhystec.com/V2/prc/jsCafeMenu.prc?jDate=${req.params.date}&jRest=R_21&jTerm=${typeCode[type]}`;
       axios.get(url)
         .then(result => {
-          console.log(result.data);
+//          console.log(result.data);
 
           menus[type] = [];
           menus[type][0] = parseMenu(result.data.rows[0]);
