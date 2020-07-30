@@ -25,6 +25,55 @@ const getData = (day) => {
 }
 app.set('view engine', 'ejs');
 app.use('/static', express.static('static'));
+
+app.get('/api2/:date', (req, res) => {
+
+  const menus = {};
+  const time = {};
+
+  const typeCode = {
+    'breakfast': 'T_B',
+    'lunch': 'T_L',
+    'dinner': 'T_D'
+  };
+
+  const parseMenu = (obj) => {
+    return {
+      type: obj.retCorn,
+      calories: obj.retCalo,
+      name: obj.retMenu.replace(/ /g, ''),
+      desc: obj.retDesc.split('#').filter(o => !!o).map(o => o.replace(/ /g, ''))
+    };
+  }
+
+  const fetchMenu = (type, i) => {
+    return new Promise(resolve => {
+      const url = `https://mc.skhystec.com/V2/prc/jsCafeMenu.prc?jDate=${req.params.date}&jRest=R_21&jTerm=${typeCode[type]}`;
+      axios.get(url)
+        .then(result => {
+          console.log(result.data);
+
+          menus[type] = [];
+          menus[type][0] = parseMenu(result.data.rows[0]);
+          menus[type][1] = parseMenu(result.data.rows[1]);
+          time[type] = result.data.retTime.replace('~', ' ~ ');
+          resolve();
+        })
+        .catch(error => {
+          console.log(error);
+          resolve();
+        });
+    });
+  }
+
+  async function fetchAllMenu() {
+    const promises = ['breakfast', 'lunch', 'dinner'].map((type, i) => fetchMenu(type, i));
+    await Promise.all(promises);
+    res.json({menus, time});
+  }
+
+  fetchAllMenu();
+})
 app.get('/api/:date', (req, res) => {
 
   const menus = {};

@@ -12,7 +12,7 @@ window.onload = function () {
       <div class="card-body p-3">
         <h6 class="card-title">${data.name}</h6>
         <p class="small">${descHTML}</p>
-        <span class="badge badge-pill badge-secondary">${data.calories} kcal</span>
+        <span class="badge rounded-pill bg-secondary">${data.calories} kcal</span>
       </div>
     </div>`
   }
@@ -22,7 +22,7 @@ window.onload = function () {
   const year = String(today.getFullYear());
   const month = (today.getMonth()+1 < 10 ? '0' : '') + String(today.getMonth()+1);
   const date = (today.getDate() < 10 ? '0' : '') + String(today.getDate());
-  const url = `/api/${year}-${month}-${date}`;
+  const url = `/api2/${year}-${month}-${date}`;
   let business_hours = {};
 
   if (0 <= window.weekdayToday && window.weekdayToday <= 4) {
@@ -37,9 +37,10 @@ window.onload = function () {
       });
       document.querySelector('.menu-body').innerHTML = wholeHTML.join('');
 
-      // 운영시간
+      // 운영시간 및 식사 선택 버튼
       business_hours = time;
       document.getElementById('business_hours').innerText = business_hours[currentType];
+      document.getElementById('selector_bar').classList.remove('invisible');
     });
   }
 
