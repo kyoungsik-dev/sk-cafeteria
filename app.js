@@ -42,7 +42,8 @@ app.get('/api2/:date', (req, res) => {
       type: obj.retCorn,
       calories: obj.retCalo,
       name: obj.retMenu.replace(/ /g, ''),
-      desc: obj.retDesc.split('#').filter(o => !!o).map(o => o.replace(/ /g, ''))
+      desc: obj.retDesc.split('#').filter(o => !!o).map(o => o.replace(/ /g, '')),
+      image: obj.retImgP ? 'https://mc.skhystec.com/nsf/menuImage/' + obj.retImgP.split('_').slice(0, 4).join('/') + '/' + obj.retImgP : null
     };
   }
 
@@ -51,7 +52,10 @@ app.get('/api2/:date', (req, res) => {
       const url = `https://mc.skhystec.com/V2/prc/jsCafeMenu.prc?jDate=${req.params.date}&jRest=R_21&jTerm=${typeCode[type]}`;
       axios.get(url)
         .then(result => {
-//          console.log(result.data);
+          if (typeof result.data !== 'object') {
+            result.data = JSON.parse(result.data.replace(/\n/gi, ''));
+          }
+          console.log(result.data);
 
           menus[type] = [];
           menus[type][0] = parseMenu(result.data.rows[0]);

@@ -5,6 +5,7 @@ window.onload = function () {
   const makeHTML = (data, index) => {
     if (!data.name || index > 1) return;
     const descHTML = data.desc.map(item => `• ${item}&nbsp;`).join('');
+    const imageHTML = data.image ? `<div class="card-footer p-0"><img src="${data.image}" class="w-100"></div>` : '';
     return `<div class="card">
       <div class="card-header px-3">
         ${data.type}&nbsp;
@@ -14,6 +15,7 @@ window.onload = function () {
         <p class="small">${descHTML}</p>
         <span class="badge rounded-pill bg-secondary">${data.calories} kcal</span>
       </div>
+      ${imageHTML}
     </div>`
   }
   
