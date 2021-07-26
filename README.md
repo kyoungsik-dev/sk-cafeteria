@@ -1,8 +1,6 @@
 # SK-Cafeteria
 SK U-타워 구내식당 메뉴 서비스
 
-[![Run on Ainize](https://ainize.ai/static/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=github.com/kyoungsik-dev/sk-cafeteria)
-
 [크롬 익스텐션](https://chrome.google.com/webstore/detail/sk-cafeteria/ijgginogcbkoabaehhhkckjdoahiigkp)
 
 ### 개요
